@@ -1,0 +1,38 @@
+{
+    "name": "@mochiapp/js",
+    "version": "0.0.1",
+    "description": "A typescript library used to build modules for Mochi.",
+    "repository": "https://github.com/Mochi-Team/mochi-js",
+    "author": "errorerrorerror",
+    "license": "MIT",
+    "private": false,
+    "main": "dist/index.js",
+    "types": "dist/index.d.js",
+    "files": [
+        "./dist"
+    ],
+    "scripts": {
+        "prepare": "husky install",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "format": "prettier -w src",
+        "format:check": "prettier --check src",
+        "build": "rm -rf dist && tsc"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.10.0",
+        "@typescript-eslint/parser": "^6.10.0",
+        "eslint": "^8.53.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-tsdoc": "^0.2.17",
+        "husky": "^8.0.0",
+        "lint-staged": "^15.0.2",
+        "prettier": "^3.0.3",
+        "typedoc": "^0.25.3",
+        "typedoc-plugin-markdown": "^3.17.1",
+        "typescript": "^5.2.2"
+    },
+    "lint-staged": {
+        "*.ts": ["pnpm lint:fix", "pnpm format"]
+    }
+}

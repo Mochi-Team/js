@@ -1,0 +1,48 @@
+name: cd
+
+on:
+  release:
+    types: [published]
+
+env: 
+  HUSKY: 0
+  TAG_NAME: ${{ github.event.release.tag_name }}
+
+jobs:
+  run-checks:
+    if: ${{ !github.event.release.draft }}
+    name: Run Checks
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    if: ${{ !github.event.release.draft }}
+    needs: 
+      - run-checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          registry-url: https://registry.npmjs.org/
+
+      - run: corepack enable
+      - run: corepack prepare pnpm@latest --activate
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - run: pnpm publish --provenance --access public --no-git-checks
+        env: 
+          NODE_AUTH_TOKEN: ${{secrets.NPM_MOCHI_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_MOCHI_TOKEN}}
