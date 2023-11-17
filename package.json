@@ -2,7 +2,7 @@
     "name": "@mochiapp/js",
     "version": "0.0.1",
     "description": "A typescript library used to build modules for Mochi.",
-    "repository": "https://github.com/Mochi-Team/mochi-js",
+    "repository": "https://github.com/Mochi-Team/js",
     "author": "errorerrorerror",
     "license": "MIT",
     "private": false,
