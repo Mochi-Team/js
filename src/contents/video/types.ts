@@ -12,8 +12,8 @@ export type PlaylistEpisodeSource = {
 
 export type PlaylistEpisodeServer = {
   id: string;
-  diplayName: string;
-  description: string;
+  displayName: string;
+  description?: string;
 };
 
 export type PlaylistEpisodeServerRequest = {
@@ -33,7 +33,7 @@ export type PlaylistEpisodeServerResponse = {
 export type PlaylistEpisodeServerLink = {
   url: string;
   quality: PlaylistEpisodeServerQualityType;
-  format_type: PlaylistEpisodeServerFormatType;
+  format: PlaylistEpisodeServerFormatType;
 };
 
 export enum PlaylistEpisodeServerQualityType {
@@ -66,7 +66,7 @@ export enum PlaylistEpisodeServerSubtitleFormat {
 export type PlaylistEpisodeServerSkipTime = {
   startTime: number;
   endTime: number;
-  skipType: PlaylistEpisodeServerSkipType;
+  type: PlaylistEpisodeServerSkipType;
 };
 
 export enum PlaylistEpisodeServerSkipType {

@@ -35,18 +35,18 @@ export type VideoContent = {
   /**
    * Retrieves an episode's available sources and servers.
    *
-   * @param request
+   * @param req
    */
   playlistEpisodeSources(
-    request: PlaylistEpisodeSourcesRequest
+    req: PlaylistEpisodeSourcesRequest
   ): Promise<PlaylistEpisodeSource[]>;
 
   /**
    * Retrieves server's information.
    *
-   * @param request
+   * @param req
    */
   playlistEpisodeServer(
-    request: PlaylistEpisodeServerRequest
+    req: PlaylistEpisodeServerRequest
   ): Promise<PlaylistEpisodeServerResponse>;
 };

@@ -162,30 +162,6 @@ export type PlaylistItem = {
    * Any additional tags.
    */
   tags: string[];
-
-  /**
-   * The variant type of this item.
-   *
-   * @remarks
-   * Some sources may contain various Playlist items with the same item number, but
-   * are distinguished by the variant type. For books, this could be used as way to distinguish
-   * other languages.
-   *
-   * For videos, this could be used as a way to choose different languages.
-   */
-  variant: PlaylistItemVariant;
-};
-
-export type PlaylistItemVariant = {
-  /**
-   * An identifier for this variant.
-   */
-  id: string;
-
-  /**
-   * The display title for this variant.
-   */
-  title: string;
 };
 
 export type PlaylistGroupID = string;
@@ -195,10 +171,7 @@ export type PlaylistItemsOptions =
   | PlaylistItemsOptionFetchPage;
 
 /**
- * Fetch group and its pagings.
- *
- * @remarks
- * This must return a {@link PlaylistItemsResponseGroups} type or it will throw an error.
+ * Fetch group and its pagings with variant type.
  */
 export type PlaylistItemsOptionFetchGroup = {
   type: 'group';
@@ -206,44 +179,25 @@ export type PlaylistItemsOptionFetchGroup = {
 };
 
 /**
- * Fetch paging items from its specific group.
- *
- * @remarks
- * This must return a {@link PlaylistItemsResponsePagings} type or it will throw an error.
+ * Fetch variant's pagings from the specific group and variant.
+ */
+export type PlaylistItemsOptionFetchVariant = {
+  type: 'variant';
+  groupId: PlaylistGroupID;
+  variantId: PlaylistGroupVariantID;
+};
+
+/**
+ * Fetch paging items from its specific group, variant and page.
  */
 export type PlaylistItemsOptionFetchPage = {
   type: 'page';
   groupId: PlaylistGroupID;
+  variantId: PlaylistGroupVariantID;
   pageId: PagingID;
 };
 
-export type PlaylistItemsResponse =
-  | PlaylistItemsResponseGroups
-  | PlaylistItemsResponsePagings;
-
-export type PlaylistItemsResponseGroups = {
-  type: 'groups';
-
-  /**
-   * All groups available for a playlist in ascending order.
-   *
-   * @remarks
-   * It should always returns all available groups regardless if it's able to fetch all pagings.
-   * This allows the user to choose which pagings it should load for the group.
-   */
-  items: PlaylistGroup[];
-};
-
-export type PlaylistItemsResponsePagings = {
-  type: 'pagings';
-
-  /**
-   * All {@link PlaylistItem | PlaylistItems} pagings for a specified group.
-   *
-   * @see {@link PlaylistGroup.pagings}
-   */
-  items: Paging<PlaylistItem>[];
-};
+export type PlaylistItemsResponse = PlaylistGroup[];
 
 export type PlaylistGroup = {
   /**
@@ -271,15 +225,46 @@ export type PlaylistGroup = {
   altTitle?: string;
 
   /**
-   * An array of all pagings available for {@link PlaylistItem | PlaylistItems}. Must be in ascending order.
+   * All available variants from this group.
    *
    * @remarks
-   * Some sources may only allow retrieving content one page at a time, so having pagination helps with
-   * requests.
+   * Some sources may contain various Playlist items with the same item number, but
+   * are distinguished by the variant type. This could be used as way to distinguish
+   * other languages, and it could also distinguish {@link PlaylistItem} from other sources.
    *
-   * If {@link pagings} is null, then it assumes that it will require another request to retrieve contents.
+   * You should always return all variants available. If the content requires a new request to fetch
+   * the variants, set null as the value for {@link PlaylistGroupVariant.pagings}.
    *
-   * Setting an empty array assumes there's no items available for this group.
+   * By specifying null/undefined, it means that it requires a new request to retrive contents.
+   *
+   * If it is initialized but no variants are provided, it is assumed that there is no contents for this group.
+   */
+  variants?: PlaylistGroupVariant[];
+};
+
+export type PlaylistGroupVariantID = string;
+
+export type PlaylistGroupVariant = {
+  /**
+   * An identifier for this variant.
+   */
+  id: PlaylistGroupVariantID;
+
+  /**
+   * The display title for this variant.
+   */
+  title: string;
+
+  /**
+   * All available pagings for this variant.
+   *
+   * @remarks
+   * Some sources may require a new request to retrieve all pagings for this variant. By setting `undefined/null`,
+   * it means it requires a new request to fetch these contents.
+   *
+   * If it returns an empty array, it signifies there is no content available for this playlist.
+   *
+   * @see {@link FetchedPaging}
    */
   pagings?: FetchedPaging<PlaylistItem>[];
 };

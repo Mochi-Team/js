@@ -8,9 +8,6 @@
     "private": false,
     "main": "dist/index.js",
     "types": "dist/index.d.js",
-    "files": [
-        "./dist"
-    ],
     "scripts": {
         "prepare": "husky install",
         "lint": "eslint",

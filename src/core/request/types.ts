@@ -11,18 +11,18 @@ export type MochiRequest = {
   options?: Partial<MochiRequestOptions>;
 };
 
+export type MochiRequestOptions = {
+  headers?: Record<string, string>;
+  body?: string | object;
+  timeout?: number;
+};
+
 export type MochiResponse = {
   status: number;
   statusText: string;
   headers: Record<string, string>;
   request: MochiRequest;
 } & MochiResponseFormat;
-
-export type MochiRequestOptions = {
-  headers?: Record<string, string>;
-  body?: string | object;
-  timeout?: number;
-};
 
 export type MochiResponseFormat = {
   data: () => ArrayBuffer;
