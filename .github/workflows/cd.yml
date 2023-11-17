@@ -9,15 +9,8 @@ env:
   TAG_NAME: ${{ github.event.release.tag_name }}
 
 jobs:
-  run-checks:
-    if: ${{ !github.event.release.draft }}
-    name: Run Checks
-    uses: ./.github/workflows/ci.yml
-
   publish:
     if: ${{ !github.event.release.draft }}
-    needs: 
-      - run-checks
     runs-on: ubuntu-latest
     permissions:
       contents: write
