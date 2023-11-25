@@ -66,7 +66,7 @@ export abstract class SourceModule {
    *
    * @returns The search filters available for this module.
    */
-  abstract searchFilter(): Promise<SearchFilter[]>;
+  abstract searchFilters(): Promise<SearchFilter[]>;
 
   /**
    * Searches for playlists based on the given query.
