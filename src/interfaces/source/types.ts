@@ -168,6 +168,7 @@ export type PlaylistGroupID = string;
 
 export type PlaylistItemsOptions =
   | PlaylistItemsOptionFetchGroup
+  | PlaylistItemsOptionFetchVariant
   | PlaylistItemsOptionFetchPage;
 
 /**
